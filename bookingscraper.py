@@ -17,10 +17,14 @@ from toolkit import ordergenerator as og
 from toolkit import general_tools as gt
 from toolkit import changeip
 
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+
 
 
 load_dotenv()
 
+SYSTEM = os.environ.get('SYSTEM')
 
 OUTPUT_FOLDER_PATH = os.environ.get('OUTPUT_FOLDER_PATH')
 STATION_FOLDER_PATH = os.environ.get('STATION_FOLDER_PATH')
@@ -167,7 +171,12 @@ class OldBookingScraper(object):
         self.chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
         # self.chrome_options.add_argument('--headless')
         self.chrome_options.add_argument('--incognito')
-        self.driver = webdriver.Chrome(options=self.chrome_options)
+
+
+        if SYSTEM == "windows":
+            self.driver = webdriver.Chrome(options=self.chrome_options)
+        if SYSTEM == "linux":
+            self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=self.chrome_options)
         self.driver.maximize_window()
 
     def create_log(self) -> None:
@@ -432,7 +441,10 @@ class BookingScraper(object):
         self.chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
         # self.chrome_options.add_argument('--headless')
         self.chrome_options.add_argument('--incognito')
-        self.driver = webdriver.Chrome(options=self.chrome_options)
+        if SYSTEM == "windows":
+            self.driver = webdriver.Chrome(options=self.chrome_options)
+        if SYSTEM == "linux":
+            self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=self.chrome_options)
         self.driver.maximize_window()
 
     def create_log(self) -> None:
