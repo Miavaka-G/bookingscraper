@@ -1,0 +1,10 @@
+.env
+
+__py__cache__/
+*.pyc
+
+toolkit/__py__cache__/
+toolkit/*.pyc
+
+dests/
+bugs/
